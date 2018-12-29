@@ -42,6 +42,7 @@ class ForecastTime(object):
     The time stamps are time zone naive.
   """
   def __init__(self,anatime=False,validtime=False,fchours=False,fcminutes=False,datetimeformats=somedatetimeformats):
+    self._datetimeformats=datetimeformats
     if type(anatime) is not bool:
       self.set_anatime(anatime)
     if type(validtime) is not bool:
@@ -52,7 +53,7 @@ class ForecastTime(object):
     return self._anatime
   def set_anatime(self,value,keep_validtime=True):
     if type(value) == str:
-      dt = guess_forecast_datetime_from_string(value,datetimeformats)[0][2]
+      dt = guess_forecast_datetime_from_string(value,self._datetimeformats)[0][2]
     elif type(value) == datetime:
       dt=value
     self._anatime=dt
@@ -73,7 +74,7 @@ class ForecastTime(object):
       raise Exception('validtime is undetermined')
   def set_validtime(self,value,keep_anatime=True):
     if type(value) == str:
-      dt = guess_forecast_datetime_from_string(value,datetimeformats)[0][2]
+      dt = guess_forecast_datetime_from_string(value,self._datetimeformats)[0][2]
     elif type(value) == datetime:
       dt=value
     self._validtime=dt
