@@ -4,6 +4,8 @@ Easy time handling in the context of weather forecasting
 # Concepts
 
 ForecastTime integrates the concept of two central notions of time in a weather forecasting scenario.
+
+
 anatime is the time when a numerical weather prediction model is initialized.
 validtime is the time when the weather forecast is to be validated towards observations.
 Between these times is a time interval which ForecastTime keeps track of in seconds, but
