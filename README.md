@@ -106,8 +106,9 @@ guess_forecast_datetime_from_string('2010-01-01 12',datetimeformats=somedatetime
 
 guess_forecast_datetime_from_string returns a list of triplets, (index,format string,datetime object).
 
+### String interpolation in file names
 
-If you want to download some real world weather forecasts, they are provided for free or for a charge and they often come in files where anatime, validtime or fchours is encoded in the filename.
+If you want to download some real world weather forecasts,  they often come in files where anatime, validtime or fchours is encoded in the filename.
 
 ForecastTime to the rescue:
 
@@ -136,15 +137,3 @@ http://www.ftp.ncep.noaa.gov/data/nccf/com/gfs/prod/gfs.2018122800/gfs.t12z.pgrb
 ForecastTime,anatime:2018-12-28 00:00:00,validtime:2018-12-28 09:00:00,fchours:9
 
 http://www.ftp.ncep.noaa.gov/data/nccf/com/gfs/prod/gfs.2018122800/gfs.t12z.pgrb2.0p25.f009
-
-gem_url_template='http://dd.weather.gc.ca/model_gem_global/25km/grib2/lat_lon/{anatime:%H}/{fchours:03d}/CMC_glb_PRMSL_MSL_0_latlon.24x.24_{anatime:%Y%m%d%H}_P{fchours:03d}.grib2'
-
-~~~~python
-gem_url_template='http://dd.weather.gc.ca/model_gem_global/25km/grib2/lat_lon/{anatime:%H}/{fchours:03d}/CMC_glb_PRMSL_MSL_0_latlon.24x.24_{anatime:%Y%m%d%H}_P{fchours:03d}.grib2'
-anatime=datetime.now().strftime('%Y%m%d00')
-ft = ForecastTime(anatime=anatime)
-for h in range(0,24,3):
-  ft.set_fchours(h)
-  print(ft)
-  print( gem_url_template.format(**ft.get_dict()) )
-~~~~
