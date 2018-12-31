@@ -1,4 +1,4 @@
-name='tidforver'
+name='svalbard'
 
 from datetime import datetime,timedelta
 
