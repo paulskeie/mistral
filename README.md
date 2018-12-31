@@ -23,7 +23,7 @@ The time stamps are time zone naive.
 The user can choose to initialize the class with no parameters and set time attributes with setters like this:
 
 ~~~~python
-from mistral import ForecastTime
+from svalbard import ForecastTime
 ft=ForecastTime()
 ft.set_anatime('2018122800')
 ft.set_fchours(24)
@@ -32,14 +32,14 @@ ft.set_fchours(24)
 The same can be achieved with
 
 ~~~~python
-from mistral import ForecastTime
+from svalbard import ForecastTime
 ft=ForecastTime(anatime='2018122800',fchours=24)
 ~~~~
 
 Or if you want to provide validtime instead of fchours:
 
 ~~~~python
-from mistral import ForecastTime
+from svalbard import ForecastTime
 ft=ForecastTime(anatime='2018122800',validtime='2018122900')
 ~~~~
 
@@ -50,7 +50,7 @@ ForecastTime has getters and setters for anatime, validtime and fchours.  The se
 If fchours is updated while anatime and validtime is set, the default setting keeps the anatime and updates validtime.
 
 ~~~~python
-from mistral import ForecastTime
+from svalbard import ForecastTime
 ft=ForecastTime(anatime='2018122800',fchours=24)
 ft.get_validtime()
 datetime.datetime(2018, 12, 29, 0, 0)
@@ -62,7 +62,7 @@ datetime.datetime(2018, 12, 30, 0, 0)
 However if you want to update anatime you can do
 
 ~~~~python
-from mistral import ForecastTime
+from svalbard import ForecastTime
 ft=ForecastTime(anatime='2018122800',fchours=24)
 ft.set_fchours(48,keep_anatime=False)
 ft.get_anatime()
@@ -98,7 +98,7 @@ What actually happens is that, if datetimes are provided as strings, the functio
 This function can be used separatly.
 
 ~~~~python
-from mistral import guess_forecast_datetime_from_string,somedatetimeformats
+from svalbard import guess_forecast_datetime_from_string,somedatetimeformats
 
 guess_forecast_datetime_from_string('2010-01-01 12',datetimeformats=somedatetimeformats,verbose=False)
 
