@@ -43,6 +43,8 @@ from mistral import ForecastTime
 ft=ForecastTime(anatime='2018122800',validtime='2018122900')
 ~~~~
 
+### Updating with consistency checks
+
 ForecastTime has getters and setters for anatime, validtime and fchours.  The setters make sure that there is consistency among those three. If one of them is updated, one of the others also need to be updated to maintain consistency.
 
 If fchours is updated while anatime and validtime is set, the default setting keeps the anatime and updates validtime.
