@@ -115,7 +115,9 @@ If you want to download some real world weather forecasts,  they often come in f
 ForecastTime to the rescue:
 
 ~~~~python
-gfs_url_template='http://www.ftp.ncep.noaa.gov/data/nccf/com/gfs/prod/gfs.{anatime:%Y%m%d%H}/gfs.t12z.pgrb2.0p25.f{fchours:03d}'
+from svalbard import ForecastTime
+from datetime import datetime
+gfs_url_template='http://www.ftp.ncep.noaa.gov/data/nccf/com/gfs/prod/gfs.{anatime:%Y%m%d%H}/gfs.t{anatime:%H}z.pgrb2.0p25.f{fchours:03d}'
 anatime=datetime.now().strftime('%Y%m%d00')
 ft = ForecastTime(anatime=anatime)
 for h in range(0,12,3):
