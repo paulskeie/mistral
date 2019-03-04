@@ -1,6 +1,7 @@
 name='svalbard'
 
 from datetime import datetime,timedelta
+import json
 
 somedatetimeformats=[
     '%Y%m%d%H',
@@ -111,3 +112,65 @@ class ForecastTime(object):
     if hasattr(self,'_fc_seconds'):
       pretty.append(f'fchours:{self.get_fchours()}')
     return ','.join(pretty)
+
+
+class FileDataSet(object):
+    """
+        FileDataSet reads a json representation of a numerical weather prediction dataset.
+        An example of the json layout is shown below.
+
+        {
+            "name":"gfs_global_jim",
+            "url_template":"http://noaa-gfs-pds.s3.amazonaws.com/{parameter:%s}/{anatime:%Y%m%d/%H00}/{fchours:03d}",
+            "parameters":[
+                {"parameter":"UREL/100 m HGHT"},
+                {"parameter":"VREL/100 m HGHT"},
+                {"parameter":"TMPK/2 m HGHT"},
+                {"parameter":"PMSL/0 - NONE"},
+                {"parameter":"PRES/0 - NONE"},
+                {"parameter":"SWRD03/0 - NONE"}
+            ],
+            "fchours":[{"inputType":"range","data":[3,240,3]},{"inputType":"range","data":[240,396,12]}]
+        }
+
+    """
+    def __init__(self,file=False,url=False):
+        if type(file) is not bool:
+            self.fn=fn
+            with open(fn,'r') as fh:
+                self._dataset=json.load(fh)
+        elif type(url) is not bool:
+            import requests
+            self.url=url
+            r=requests.get(url)
+            self._dataset=json.loads(r.content)
+        fchlist=[]
+        for fchset in self._dataset['fchours']:
+            if fchset['inputType']=='range':
+                fchsetlist=list(range(*fchset['data']))
+                fchlist=fchlist+fchsetlist
+        self._fchours=fchlist
+    def url_generator(self,anatime):
+        url_template=self._dataset['url_template']
+        for fchour in self._fchours:
+            for pard in self._dataset['parameters']:
+                ft=ForecastTime(anatime=anatime,fchours=fchour)
+                d=ft.get_dict()
+                d.update(pard)
+                url=url_template.format(**d)
+                yield url
+    def __repr__(self):
+        return "FileDataSet:%s" % (self._dataset['name'])
+
+class FileDataSetGroup(object):
+    def __init__(self,url):
+        import requests
+        r=requests.get(url)
+        dataset_dict=json.loads(r.content)
+        names=[]
+        for dsurl in dataset_dict['datasets']:
+            ds=FileDataSet(url=dsurl)
+            setattr(self,ds._dataset['name'],ds)
+            names.append(ds._dataset['name'])
+        self.names=names
+
