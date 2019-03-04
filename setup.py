@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(name='svalbard',
-      version='0.1',
+      version='0.2',
       description='Easy time handling in the context of weather forecasting',
       long_description=long_description,
       long_description_content_type="text/markdown",
