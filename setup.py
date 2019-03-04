@@ -13,4 +13,5 @@ setup(name='svalbard',
       author_email='paul.skeie@gmail.com',
       license='Apache-2.0',
       packages=['svalbard'],
+      install_requires=['requests'],
       zip_safe=False)
